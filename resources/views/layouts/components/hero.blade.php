@@ -9,7 +9,7 @@
 <section class="relative w-full h-96 md:h-[580px] overflow-hidden z-5 bg-[#fff9f2]">
   <div class="owl-carousel owl-carousel2 h-full">
     <div class="item h-full">
-      <img src="{{ asset('assets/images/banner/banner1.webp') }}"
+      <img src="{{ asset('assets/images/banner/banner3.jpg') }}"
            class="w-full h-full object-cover"
            alt="Slide 1">
     </div>
@@ -19,7 +19,7 @@
            alt="Slide 2">
     </div>
     <div class="item h-full">
-      <img src="{{ asset('assets/images/banner/banner3.jpg') }}"
+      <img src="{{ asset('assets/images/banner/banner1.jpg') }}"
            class="w-full h-full object-cover"
            alt="Slide 3">
     </div>

@@ -110,28 +110,27 @@
             <div class="owl-carousel owl-carousel1 owl-theme">
 
 
-                @foreach ($product as $item)
-    
-                <div class="product-card">
-                    <a href="{{ url("product",1) }}">
-                    <div class="product-image1">
-                        <span class="discount-badge">20% OFF</span>
-                        {{-- <div class="text-5xl text-blue-700 opacity-20 absolute">Midnight Bloom</div> --}}
-                        <img src="{{ asset('/storage/',$item->images) }}" alt="Midnight Bloom Ensemble" class="h-full  object-cover relative z-2">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="font-semibold text-sm text-gray-800">{{ $item->name }}</h3>
-                        <div class="flex items-center mt-2">
-                            <span class="text-sm font-light text-gray-800">₹999.00</span>
-                            <span class="text-sm text-gray-500 line-through ml-2">₹1249.00</span>
-                        </div>
-                          
-                        <button class="view-btn w-full mt-4 bg-[#556B2F] hover:bg-white hover:text-[#556B2F] text-white py-2 rounded-md">  Shop Now</button>
-                    </div>
-                    </a>
-                </div>  
-                    
-                @endforeach          
+               @foreach ($product as $item)
+<div class="product-card">
+    <a href="{{ url("product", $item->id) }}">
+        <div class="product-image1">
+            <span class="discount-badge">20% OFF</span>
+            <img src="{{ asset('storage/' . $item->images[0]) }}" 
+                 alt="{{ $item->name }}" 
+                 class="w-full h-full object-cover rounded-md">
+        </div>
+        <div class="product-info">
+            <h3 class="font-semibold text-sm text-gray-800">{{ $item->name }}</h3>
+            <div class="flex items-center mt-2">
+                <span class="text-sm font-light text-gray-800">₹{{ $item->discount_price }}</span>
+                <span class="text-sm text-gray-500 line-through ml-2">₹{{ $item->price }}</span>
+            </div>
+            <button class="view-btn w-full mt-4 bg-[#556B2F] hover:bg-white hover:text-[#556B2F] text-white py-2 rounded-md">Shop Now</button>
+        </div>
+    </a>
+</div>
+@endforeach
+          
                 
             </div>
         </div>

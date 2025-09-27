@@ -44,13 +44,14 @@
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="flex items-center">
                                 <div class="flex-shrink-0 h-10 w-10">
-                                    @if($product->variants && count($product->variants) > 0 && isset($product->variants[0]['images']))
-                                        <img class="h-10 w-10 rounded-full object-cover" src="{{ asset('storage/' . $product->variants[0]['images'][0]) }}" alt="{{ $product->name }}">
-                                    @else
-                                        <div class="h-10 w-10 bg-gray-200 rounded-full flex items-center justify-center">
-                                            <span class="text-gray-500 text-sm">No image</span>
-                                        </div>
-                                    @endif
+                                  @if($product->images && count($product->images) > 0)
+    <img class="h-10 w-10 rounded-full object-cover" src="{{ asset('storage/' . $product->images[0]) }}" alt="{{ $product->name }}">
+@else
+    <div class="h-10 w-10 bg-gray-200 rounded-full flex items-center justify-center">
+        <span class="text-gray-500 text-sm">No image</span>
+    </div>
+@endif
+
                                 </div>
                                 <div class="ml-4">
                                     <div class="text-sm font-medium text-gray-900">{{ $product->name }}</div>

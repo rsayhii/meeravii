@@ -73,7 +73,10 @@
         <h2 class="text-xl font-bold mt-6 mb-2">Product Details</h2>
         <ul class="list-disc list-inside bg-gray-50 p-4 rounded">
             @foreach($product->product_details as $key => $value)
-                <li><strong>{{ ucfirst($key) }}:</strong> {{ $value }}</li>
+               <li>
+    <strong>{{ ucfirst(str_replace('_',' ',$key)) }}:</strong> 
+    {{ is_array($value) ? implode(', ', $value) : $value }}
+</li>
             @endforeach
         </ul>
     @endif
