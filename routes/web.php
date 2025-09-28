@@ -13,6 +13,7 @@ use App\http\Controllers\PlaceOrderController;
 use App\http\Controllers\LoginController;
 
 Route::get('/', function () {
+    return ('hello');
     return view('welcome');
 });
 

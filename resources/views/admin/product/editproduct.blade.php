@@ -144,17 +144,36 @@
                 </div>
                 <div id="removed_inputs"></div>
 
-                <!-- Product Details -->
-                <div class="mb-6">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Product Details (JSON)</label>
-                    <textarea name="product_details" rows="4" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-primary focus:border-primary" placeholder='{"material":"100% Cotton","care":"Machine wash"}'>{{ old('product_details', isset($product) && $product->product_details ? json_encode($product->product_details) : '') }}</textarea>
-                </div>
+               <!-- Product Details -->
+<div class="mb-6">
+    <label class="block text-sm font-medium text-gray-700 mb-2">Product Details</label>
 
-                <!-- Delivery & Returns -->
-                <div class="mb-6">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Delivery & Returns (JSON)</label>
-                    <textarea name="delivery_returns" rows="4" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-primary focus:border-primary" placeholder='{"delivery_time":"3-5 days","return_policy":"30 days"}'>{{ old('delivery_returns', isset($product) && $product->delivery_returns ? json_encode($product->delivery_returns) : '') }}</textarea>
-                </div>
+    <input type="text" name="material" 
+        class="w-full border border-gray-300 rounded-md px-3 py-2 mb-2 focus:ring-primary focus:border-primary"
+        placeholder="Material (e.g., 100% Cotton)"
+        value="{{ old('material', $product->material ?? '') }}">
+
+    <input type="text" name="care" 
+        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-primary focus:border-primary"
+        placeholder="Care (e.g., Machine wash)"
+        value="{{ old('care', $product->care ?? '') }}">
+</div>
+
+<!-- Delivery & Returns -->
+<div class="mb-6">
+    <label class="block text-sm font-medium text-gray-700 mb-2">Delivery & Returns</label>
+
+    <input type="text" name="delivery_time" 
+        class="w-full border border-gray-300 rounded-md px-3 py-2 mb-2 focus:ring-primary focus:border-primary"
+        placeholder="Delivery Time (e.g., 3-5 days)"
+        value="{{ old('delivery_time', $product->delivery_time ?? '') }}">
+
+    <input type="text" name="return_policy" 
+        class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-primary focus:border-primary"
+        placeholder="Return Policy (e.g., 30 days)"
+        value="{{ old('return_policy', $product->return_policy ?? '') }}">
+</div>
+
 
                 <!-- Form Buttons -->
                 <div class="flex justify-end space-x-4">

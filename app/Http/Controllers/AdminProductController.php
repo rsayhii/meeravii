@@ -43,9 +43,12 @@ class AdminProductController extends Controller
         'variants.*.color_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         'variants.*.images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         'images' => 'nullable|array',
-        'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:4096',
-        'product_details' => 'nullable|string',
-        'delivery_returns' => 'nullable|string',
+        'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10000',
+        'material'       => 'nullable|string|max:255',
+        'care'           => 'nullable|string|max:255',
+        'delivery_time'  => 'nullable|string|max:255',
+        'return_policy'  => 'nullable|string|max:255',
+
     ]);
 
     try {
@@ -93,22 +96,26 @@ class AdminProductController extends Controller
             }
         }
 
-        $product = Product::create([
-            'name' => $validated['name'],
-            'sku' => $validated['sku'],
-            'category_id' => $validated['category_id'],
-            'sub_category_id' => $validated['sub_category_id'] ?? null,
-            'sub_sub_category_id' => $validated['sub_sub_category_id'] ?? null,
-            'price' => $validated['price'],
-            'discount_price' => $validated['discount_price'] ?? null,
-            'stock' => $validated['stock'],
-            'description' => $validated['description'] ?? null,
-            'variants' => !empty($variantsData) ? $variantsData : null,
-            'product_details' => $validated['product_details'] ? json_decode($validated['product_details'], true) : null,
-            'delivery_returns' => $validated['delivery_returns'] ? json_decode($validated['delivery_returns'], true) : null,
-            'images' => !empty($productImages) ? $productImages : null,
-            'status' => 'Active',
-        ]);
+       $product = Product::create([
+    'name' => $validated['name'],
+    'sku' => $validated['sku'],
+    'category_id' => $validated['category_id'],
+    'sub_category_id' => $validated['sub_category_id'] ?? null,
+    'sub_sub_category_id' => $validated['sub_sub_category_id'] ?? null,
+    'price' => $validated['price'],
+    'discount_price' => $validated['discount_price'] ?? null,
+    'stock' => $validated['stock'],
+    'description' => $validated['description'] ?? null,
+    'variants' => !empty($variantsData) ? $variantsData : null,
+    'material' => $validated['material'] ?? null,
+    'care' => $validated['care'] ?? null,
+    'delivery_time' => $validated['delivery_time'] ?? null,
+    'return_policy' => $validated['return_policy'] ?? null,
+    'images' => !empty($productImages) ? $productImages : null,
+    'status' => 'Active',
+]);
+
+
 
         return redirect()->route('admin-product.index')
             ->with('success', 'Product created successfully!');
@@ -140,26 +147,31 @@ class AdminProductController extends Controller
     $product = Product::findOrFail($id);
 
     $validated = $request->validate([
-        'name' => 'required|string|max:255',
-        'sku' => 'required|string|unique:products,sku,' . $id,
-        'category_id' => 'required|exists:categories,id',
-        'sub_category_id' => 'nullable|exists:categories,id',
-        'sub_sub_category_id' => 'nullable|exists:categories,id',
-        'price' => 'required|numeric|min:0',
-        'discount_price' => 'nullable|numeric|min:0',
-        'stock' => 'required|integer|min:0',
-        'description' => 'nullable|string',
-        'variants' => 'nullable|array',
-        'variants.*.color' => 'required_with:variants|string',
-        'variants.*.sizes' => 'required_with:variants|string',
-        'variants.*.color_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'variants.*.images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'images' => 'nullable|array',
-        'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:4096',
-        'product_details' => 'nullable|string',
-        'delivery_returns' => 'nullable|string',
-        'status' => 'required|in:Active,Inactive',
-    ]);
+    'name' => 'required|string|max:255',
+    'sku' => 'required|string|unique:products,sku,' . ($product->id ?? 'NULL'),
+    'category_id' => 'required|exists:categories,id',
+    'sub_category_id' => 'nullable|exists:categories,id',
+    'sub_sub_category_id' => 'nullable|exists:categories,id',
+    'price' => 'required|numeric|min:0',
+    'discount_price' => 'nullable|numeric|min:0',
+    'stock' => 'required|integer|min:0',
+    'description' => 'nullable|string',
+    'variants' => 'nullable|array',
+    'variants.*.color' => 'required_with:variants|string',
+    'variants.*.sizes' => 'nullable|array',
+    'variants.*.sizes.*.size' => 'required_with:variants|string',
+    'variants.*.sizes.*.qty' => 'required_with:variants|integer|min:0',
+    'variants.*.images' => 'nullable|array',
+    'variants.*.images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    'images' => 'nullable|array',
+    'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10000',
+    'material' => 'nullable|string|max:255',
+    'care' => 'nullable|string|max:255',
+    'delivery_time' => 'nullable|string|max:255',
+    'return_policy' => 'nullable|string|max:255',
+    'status' => 'required|in:Active,Inactive',
+]);
+
 
     try {
         // Handle product images
@@ -224,22 +236,25 @@ class AdminProductController extends Controller
             ];
         }
 
-        $product->update([
-            'name' => $validated['name'],
-            'sku' => $validated['sku'],
-            'category_id' => $validated['category_id'],
-            'sub_category_id' => $validated['sub_category_id'] ?? null,
-            'sub_sub_category_id' => $validated['sub_sub_category_id'] ?? null,
-            'price' => $validated['price'],
-            'discount_price' => $validated['discount_price'] ?? null,
-            'stock' => $validated['stock'],
-            'description' => $validated['description'] ?? null,
-            'variants' => !empty($variantsData) ? $variantsData : null,
-            'product_details' => $validated['product_details'] ? json_decode($validated['product_details'], true) : null,
-            'delivery_returns' => $validated['delivery_returns'] ? json_decode($validated['delivery_returns'], true) : null,
-            'images' => !empty($existingProductImages) ? $existingProductImages : null,
-            'status' => $validated['status'],
-        ]);
+       $product->update([
+    'name'                => $validated['name'],
+    'sku'                 => $validated['sku'],
+    'category_id'         => $validated['category_id'],
+    'sub_category_id'     => $validated['sub_category_id'] ?? null,
+    'sub_sub_category_id' => $validated['sub_sub_category_id'] ?? null,
+    'price'               => $validated['price'],
+    'discount_price'      => $validated['discount_price'] ?? null,
+    'stock'               => $validated['stock'],
+    'description'         => $validated['description'] ?? null,
+    'variants'            => !empty($variantsData) ? $variantsData : null,
+    'material'            => $validated['material'] ?? null,
+    'care'                => $validated['care'] ?? null,
+    'delivery_time'       => $validated['delivery_time'] ?? null,
+    'return_policy'       => $validated['return_policy'] ?? null,
+    'images'              => !empty($existingProductImages) ? $existingProductImages : null,
+    'status'              => $validated['status'],
+]);
+
 
         return redirect()->route('admin-product.index')
             ->with('success', 'Product updated successfully!');

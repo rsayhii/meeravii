@@ -17,21 +17,23 @@ class Product extends Model
         'discount_price',
         'stock',
         'description',
-        'variants',
-        'product_details',
-        'delivery_returns',
+        'variants',          // array of variants
+        'material',          // product details
+        'care',              // product details
+        'delivery_time',     // delivery & returns
+        'return_policy',     // delivery & returns
         'status',
-        'images', // product-level images
+        'images',            // array of product images
     ];
 
     protected $casts = [
         'variants' => 'array',
-        'product_details' => 'array',
-        'delivery_returns' => 'array',
         'images' => 'array',
         'price' => 'decimal:2',
         'discount_price' => 'decimal:2',
     ];
+
+    // Relationships
 
     public function category(): BelongsTo
     {
@@ -46,5 +48,17 @@ class Product extends Model
     public function subSubCategory(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'sub_sub_category_id');
+    }
+
+    // Helper to get full category path
+    public function getFullCategoryAttribute(): string
+    {
+        $categories = [
+            $this->category->name ?? null,
+            $this->subCategory->name ?? null,
+            $this->subSubCategory->name ?? null,
+        ];
+
+        return implode(' > ', array_filter($categories));
     }
 }
