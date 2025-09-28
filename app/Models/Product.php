@@ -8,29 +8,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Product extends Model
 {
     protected $fillable = [
-        'name',
-        'sku',
-        'category_id',
-        'sub_category_id',
-        'sub_sub_category_id',
-        'price',
-        'discount_price',
-        'stock',
-        'description',
-        'variants',          // array of variants
-        'material',          // product details
-        'care',              // product details
-        'delivery_time',     // delivery & returns
-        'return_policy',     // delivery & returns
-        'status',
-        'images',            // array of product images
+        'name','sku','category_id','sub_category_id','sub_sub_category_id',
+    'price','discount_price','stock','description',
+    'variants','images','product_details','delivery_returns','status'
     ];
 
     protected $casts = [
-        'variants' => 'array',
-        'images' => 'array',
-        'price' => 'decimal:2',
-        'discount_price' => 'decimal:2',
+       'variants' => 'array',
+    'images' => 'array',
+    'product_details' => 'array',
+    'delivery_returns' => 'array',
+    'price' => 'decimal:2',
+    'discount_price' => 'decimal:2',
     ];
 
     // Relationships

@@ -28,10 +28,10 @@ $table->json('delivery_returns')->nullable();
 $table->json('images')->nullable(); // <-- added
 $table->enum('status', ['Active', 'Inactive'])->default('Active');
 
-$table->string('material')->nullable();
-$table->string('care')->nullable();
-$table->string('delivery_time')->nullable();
-$table->string('return_policy')->nullable();
+// $table->string('material')->nullable();
+// $table->string('care')->nullable();
+// $table->string('delivery_time')->nullable();
+// $table->string('return_policy')->nullable();
 
 $table->timestamps();
 

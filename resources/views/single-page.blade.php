@@ -6,69 +6,7 @@
     <title>Structured Ottoman Jumper - ETIO</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            color: #1a1a1a;
-        }
-        
-        .breadcrumb {
-            font-size: 0.8rem;
-            color: #666;
-        }
-        
-        .size-option {
-            border: 1px solid #ddd;
-            padding: 10px 0;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .size-option.selected {
-            border-color: #000;
-            background-color: #000;
-            color: white;
-        }
-        
-        .size-option:hover {
-            border-color: #888;
-        }
-        
-        .product-image {
-            transition: transform 0.3s ease;
-            cursor: zoom-in;
-        }
-        
-        .product-image:hover:not(.zoomed) {
-            transform: scale(1.1); /* Slight zoom on hover, similar to Amazon */
-        }
-        
-        .product-image.zoomed {
-            transform: scale(2);
-            cursor: zoom-out;
-        }
-        
-        .accordion-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-        }
-        
-        .accordion-content.open {
-            max-height: 500px;
-        }
-        
-        .sticky-cart-bar {
-            transition: transform 0.3s ease;
-        }
-        
-        .sticky-cart-bar.hidden {
-            transform: translateY(100%);
-        }
-    </style>
+
 </head>
 <body class="bg-white">
     @include('layouts.header')

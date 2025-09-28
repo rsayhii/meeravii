@@ -36,12 +36,7 @@ class ProductController extends Controller
      */
      public function show(string $id)
     {
-        $path = storage_path('app/product/product.json');
-        $products = json_decode(file_get_contents($path), true);
-
-        $product = collect($products)->firstWhere('id', (int)$id);
-
-
+        $product = Product::with(['category', 'subCategory', 'subSubCategory'])->find($id);
         return view('single-page', compact('product'));
     }   
 
