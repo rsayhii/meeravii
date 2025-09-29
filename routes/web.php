@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\AdminProductController;
 use App\Http\Controllers\AdminCategoryController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
@@ -115,6 +116,13 @@ Route::controller(AdminCategoryController::class)->group(function () {
     Route::put('/admin-category/{id}', 'update')->name('admin-category.update');
     Route::delete('/admin-category/{id}', 'destroy')->name('admin-category.destroy');
 });
+
+
+
+Route::get('/auth', function(){ return view('auth'); });
+Route::post('/ajax-login', [AuthController::class, 'login'])->name('ajax.login');
+Route::post('/ajax-register', [AuthController::class, 'register'])->name('ajax.register');
+Route::post('/ajax-logout', [AuthController::class, 'logout'])->name('ajax.logout');
 
 
 

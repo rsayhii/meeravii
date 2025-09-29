@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meeravii E-commerce Header</title>
@@ -190,6 +191,13 @@
     </style>
 </head>
 <body class="font-sans antialiased bg-white">
+
+
+
+
+
+
+    
     <!-- Top Announcement Bar -->
     <div class="promo-banner w-full text-white py-2 text-center text-sm font-medium">
         <div class="container mx-auto">
@@ -441,6 +449,9 @@
                     <h2 class="text-3xl font-light">Welcome Back</h2>
                     <p class="text-gray-600 mt-2">Log in to your account</p>
                 </div>
+
+                <!-- Login Form -->
+<div id="login-alert" class="hidden mb-4 p-3 rounded text-white"></div>
                 
                 <form class="space-y-4">
                     <div>
@@ -474,6 +485,9 @@
                     <h2 class="text-3xl font-light">Create Account</h2>
                     <p class="text-gray-600 mt-2">Start your journey with us</p>
                 </div>
+
+                <!-- Signup Form -->
+<div id="signup-alert" class="hidden mb-4 p-3 rounded text-white"></div>
                 
                 <form class="space-y-4">
                     <div>
@@ -606,5 +620,83 @@
             });
         });
     </script>
+
+
+<script>
+const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+// Helper to show alert
+function showAlert(containerId, message, type='success'){
+    const alertBox = document.getElementById(containerId);
+    alertBox.innerHTML = message; // allow HTML for multiple errors
+    alertBox.classList.remove('hidden', 'bg-green-500', 'bg-red-500');
+    alertBox.classList.add(type === 'success' ? 'bg-green-500' : 'bg-red-500');
+}
+
+// LOGIN AJAX
+document.querySelector('#login-form-container form').addEventListener('submit', function(e){
+    e.preventDefault();
+    let email = document.getElementById('login-email').value;
+    let password = document.getElementById('login-password').value;
+
+    fetch('{{ route("ajax.login") }}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken
+        },
+        body: JSON.stringify({email, password})
+    })
+    .then(async res => {
+        let data = await res.json();
+        // Handle validation errors
+        if(res.status === 422 && data.errors){
+            let messages = '';
+            for(let field in data.errors){
+                messages += `<div>${data.errors[field].join('<br>')}</div>`;
+            }
+            showAlert('login-alert', messages, 'error');
+            return;
+        }
+        // Show success or failure
+        showAlert('login-alert', data.message, data.status ? 'success' : 'error');
+        if(data.status) setTimeout(() => location.reload(), 1000);
+    });
+});
+
+// SIGNUP AJAX
+document.querySelector('#signup-form-container form').addEventListener('submit', function(e){
+    e.preventDefault();
+    let email = document.getElementById('signup-email').value;
+    let password = document.getElementById('signup-password').value;
+    let confirm_password = document.getElementById('confirm-password').value;
+
+    fetch('{{ route("ajax.register") }}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken
+        },
+        body: JSON.stringify({email, password, confirm_password})
+    })
+    .then(async res => {
+        let data = await res.json();
+        // Handle validation errors
+        if(res.status === 422 && data.errors){
+            let messages = '';
+            for(let field in data.errors){
+                messages += `<div>${data.errors[field].join('<br>')}</div>`;
+            }
+            showAlert('signup-alert', messages, 'error');
+            return;
+        }
+        // Show success or failure
+        showAlert('signup-alert', data.message, data.status ? 'success' : 'error');
+        if(data.status) setTimeout(() => location.reload(), 1000);
+    });
+});
+</script>
+
+
 </body>
 </html>
